@@ -4,7 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';
-import axios from 'axios';
+import axios from '../util/axios';
+import { Endpoint } from '@/util/constants';
+import Router from "next/router";
 
 // Define a validation schema using Yup
 const schema = yup.object().shape({
@@ -35,16 +37,18 @@ const Login: React.FC = () => {
         setErrorMessage(null);
 
         try {
-            const response = await axios.post('/api/auth/login', {
+            const response = await axios.post(Endpoint.LOGIN, {
                 email: data.email,
                 password: data.password,
             });
+            let payload = response.data
 
-            console.log('Login successful:', response.data);
+            console.log('Login successful:', payload);
 
-            // Handle successful login, e.g., store token, redirect, etc.
-            // localStorage.setItem('token', response.data.token);
-            // Router.push('/dashboard');
+            if (payload.Code == "00") {
+                localStorage.setItem("ut", payload.Token);
+                Router.push('/dashboard');
+            }
 
         } catch (error) {
             console.error('Login failed:', error);

@@ -1,6 +1,5 @@
 
-export const FrontUrl = "https://corporate.fetswallet.com/"
-export const Baseurl = "https://fetspay.fetswallet.com/corporate-api"
+export const Baseurl = "https://lohalhost.com/"
 
 export const Endpoint = {
   CHANGE_PASSWORD: "/change-password",
