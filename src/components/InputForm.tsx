@@ -35,7 +35,9 @@ const InputForm: React.FC = () => {
       let payload = response.data
 
       console.log('Login successful:', payload);
-
+      if (payload.statusCode == "00") {
+        Router.reload();
+    }
 
     } catch (error) {
       console.error('Login failed:', error);
