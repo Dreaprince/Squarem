@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';
+import axios from 'axios';
 
 // Define a validation schema using Yup
 const schema = yup.object().shape({
@@ -18,6 +19,8 @@ interface IFormInputs {
 
 const Login: React.FC = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
         resolver: yupResolver(schema),
@@ -27,8 +30,28 @@ const Login: React.FC = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    const onSubmit: SubmitHandler<IFormInputs> = data => {
-        console.log(data);
+    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+        setLoading(true);
+        setErrorMessage(null);
+
+        try {
+            const response = await axios.post('/api/auth/login', {
+                email: data.email,
+                password: data.password,
+            });
+
+            console.log('Login successful:', response.data);
+
+            // Handle successful login, e.g., store token, redirect, etc.
+            // localStorage.setItem('token', response.data.token);
+            // Router.push('/dashboard');
+
+        } catch (error) {
+            console.error('Login failed:', error);
+            setErrorMessage('Failed to login. Please check your credentials and try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -81,8 +104,11 @@ const Login: React.FC = () => {
                         </div>
                     </div>
 
+                    {errorMessage && <p className="text-red-500 text-xs mb-4 text-center">{errorMessage}</p>}
 
-                    <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-md">Login into your account</button>
+                    <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-md" disabled={loading}>
+                        {loading ? 'Logging in...' : 'Login into your account'}
+                    </button>
                 </form>
 
                 <p className="text-sm text-gray-600 mt-10 text-center">
