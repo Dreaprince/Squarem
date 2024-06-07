@@ -1,6 +1,8 @@
 // components/LinkTable.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaShareAlt, FaCopy } from 'react-icons/fa';
+import axios from '../util/axios';
+import { Endpoint } from '@/util/constants';
 
 interface LinkData {
   name: string;
@@ -11,29 +13,25 @@ interface LinkData {
 const LinkTable: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLink, setModalLink] = useState('');
+  const [data, setData] = useState<LinkData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const data: LinkData[] = [
-    {
-      name: 'Google',
-      description: 'Search Engine',
-      shortUrl: 'https://goo.gl/abc123',
-    },
-    {
-      name: 'YouTube',
-      description: 'Video Sharing',
-      shortUrl: 'https://goo.gl/def456',
-    },
-    {
-      name: 'Twitter',
-      description: 'Social Network',
-      shortUrl: 'https://goo.gl/ghi789',
-    },
-    {
-      name: 'Facebook',
-      description: 'Social Network',
-      shortUrl: 'https://goo.gl/jkl012',
-    },
-  ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(Endpoint.FETCH_SHORTENURL); // Replace with your API endpoint
+        setData(response.data);
+      } catch (error) {
+        setError('Failed to fetch data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const showModal = (url: string) => {
     setModalLink(url);
@@ -49,6 +47,9 @@ const LinkTable: React.FC = () => {
     navigator.clipboard.writeText(modalLink);
     alert('Copied to clipboard');
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
