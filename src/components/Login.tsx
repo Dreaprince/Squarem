@@ -45,10 +45,17 @@ const Login: React.FC = () => {
 
             console.log('Login successful:', payload);
 
-            if (payload.Code == "00") {
+            if (payload.statusCode == "00") {
                 localStorage.setItem("ut", payload.Token);
                 Router.push('/dashboard');
             }
+            let message =
+            payload.statusCode == "99"
+              ? "Username or password is incorrect"
+              : "Authentication service could not complete your " +
+              "request at the moment. Please retry or contact support";
+          let error = new Error(message);
+          throw error;
 
         } catch (error) {
             console.error('Login failed:', error);

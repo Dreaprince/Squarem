@@ -4,6 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';
+import axios from '../util/axios';
+import { Endpoint } from '@/util/constants';
+import Router from "next/router";
 
 // Define a validation schema using Yup
 const schema = yup.object().shape({
@@ -22,6 +25,8 @@ interface IFormInputs {
 
 const CreateAccount: React.FC = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
         resolver: yupResolver(schema),
@@ -31,8 +36,30 @@ const CreateAccount: React.FC = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    const onSubmit: SubmitHandler<IFormInputs> = data => {
-        console.log(data);
+    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+        setLoading(true);
+        setErrorMessage(null);
+
+        try {
+            const response = await axios.post(Endpoint.LOGIN, {
+                email: data.email,
+                password: data.password,
+            });
+            let payload = response.data
+
+            console.log('Create Account successful:', payload);
+
+            if (payload.statusCode == "00") {
+                localStorage.setItem("ut", payload.Token);
+                Router.push('/dashboard');
+            }
+
+        } catch (error) {
+            console.error('Login failed:', error);
+            setErrorMessage('Failed to login. Please check your credentials and try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -105,7 +132,11 @@ const CreateAccount: React.FC = () => {
                         </div>
                     </div>
 
-                    <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-md">Create your account</button>
+                    {errorMessage && <p className="text-red-500 text-xs mb-4 text-center">{errorMessage}</p>}
+
+                    <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-md" disabled={loading}>
+                        {loading ? 'Creating your account...' : 'Create your account'}
+                    </button>
                 </form>
 
                 <p className="text-sm text-gray-600 mt-10 text-center">
