@@ -41,7 +41,7 @@ const CreateAccount: React.FC = () => {
         setErrorMessage(null);
 
         try {
-            const response = await axios.post(Endpoint.LOGIN, {
+            const response = await axios.post(Endpoint.POST_USER, {
                 email: data.email,
                 password: data.password,
             });
