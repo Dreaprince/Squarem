@@ -48,11 +48,10 @@ const InputForm: React.FC = () => {
   };
 
   return (
-    <div className="" style={{ marginTop: '3px', }}>
+    <div className="mt-[3px]">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white pl-6 pt-5 rounded-lg flex flex-col gap-[10px] opacity-1"
-        style={{ width: '450px', height: '320px' }}
+        className="bg-white pl-6 pt-5 rounded-lg flex flex-col gap-[10px] opacity-1 w-[450px] h-[320px]"
       >
         <div className="flex flex-col gap-[2px] opacity-1">
           <label htmlFor="name" className="text-sm font-medium text-gray-700">Name</label>
@@ -60,8 +59,7 @@ const InputForm: React.FC = () => {
             id="name"
             placeholder='input name'
             {...register('name')}
-            className={`p-4 border ${errors.name ? 'border-red-500' : 'border-gray-300'} bg-gray-100 rounded-md`}
-            style={{ width: '400px', height: '40px' }}
+            className={`p-4 border ${errors.name ? 'border-red-500' : 'border-gray-300'} bg-gray-100 rounded-md w-[400px] h-[40px]`}
           />
           {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
         </div>
@@ -71,17 +69,15 @@ const InputForm: React.FC = () => {
           <label htmlFor="website" className="text-sm font-medium text-gray-700">Shorten Url</label>
           <div className="relative flex items-center">
             <div
-              className="absolute left-0 flex items-center justify-center bg-gray-100 text-gray-700 rounded-l-md rounded-r-none"
-              style={{ width: '70px', height: '100%' }}
+              className="absolute left-0 flex items-center justify-center bg-gray-100 text-gray-700 rounded-l-md rounded-r-none w-[70px] h-full"
             >
-              <span className="text-sm" style={{ width: '55px', height: '20px' }}>http://</span>
+              <span className="text-sm w-[55px] h-[20px]">http://</span>
             </div>
             <input
               id="website"
               placeholder='www.placeholder.com'
               {...register('website')}
-              className={`pl-[80px] pr-4 py-2 border ${errors.website ? 'border-red-500' : 'border-gray-500'} rounded-md`}
-              style={{ width: '400px', height: '40px' }}
+              className={`pl-[80px] pr-4 py-2 border ${errors.website ? 'border-red-500' : 'border-gray-500'} rounded-md w-[400px] h-[40px]`}
             />
           </div>
           {errors.website && <p className="text-red-500 text-xs">{errors.website.message}</p>}
@@ -93,8 +89,7 @@ const InputForm: React.FC = () => {
             id="description"
             placeholder='input description'
             {...register('description')}
-            className={`p-4 border ${errors.description ? 'border-red-500' : 'border-gray-500'} bg-gray-100 rounded-md`}
-            style={{ width: '400px', height: '40px' }}
+            className={`p-4 border ${errors.description ? 'border-red-500' : 'border-gray-500'} bg-gray-100 rounded-md w-[400px] h-[40px]`}
           />
           {errors.description && <p className="text-red-500 text-xs">{errors.description.message}</p>}
         </div>

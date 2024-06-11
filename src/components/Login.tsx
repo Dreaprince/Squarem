@@ -67,17 +67,7 @@ const Login: React.FC = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-md "
-                style={{
-                    width: '456px',
-                    height: '492px',
-                    padding: '32px 28px',
-                    gap: '8px',
-                    borderRadius: '10px 0 0 0',
-                    border: '1px solid #ccc',
-                    opacity: 1
-                }}
-            >
+            <div className="bg-white w-[456px] h-auto py-8 px-7 gap-2 rounded-tl-lg border border-gray-300 opacity-100 shadow-md">
                 <h2 className="text-xl font-bold mb-2 mt-2 text-center">Log In</h2>
                 <p className="text-sm text-gray-600 mb-6 text-center">Enter your credentials to access your account</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
