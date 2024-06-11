@@ -13,25 +13,25 @@ interface LinkData {
 const LinkTable: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLink, setModalLink] = useState('');
-  const [data, setData] = useState<LinkData[]>([]);
+  //const [data, setData] = useState<LinkData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(Endpoint.FETCH_SHORTENURL); // Replace with your API endpoint
-        setData(response.data);
-      } catch (error) {
-        setError('Failed to fetch data');
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(Endpoint.FETCH_SHORTENURL); // Replace with your API endpoint
+  //       setData(response.data);
+  //     } catch (error) {
+  //       setError('Failed to fetch data');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const showModal = (url: string) => {
     setModalLink(url);
@@ -48,8 +48,31 @@ const LinkTable: React.FC = () => {
     alert('Copied to clipboard');
   };
 
-  if (loading) return <div>Loading...</div>;
+  // if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
+
+  const data: LinkData[] = [
+    {
+      name: 'Google',
+      description: 'Search Engine',
+      shortUrl: 'https://goo.gl/abc123',
+    },
+    {
+      name: 'YouTube',
+      description: 'Video Sharing',
+      shortUrl: 'https://goo.gl/def456',
+    },
+    {
+      name: 'Twitter',
+      description: 'Social Network',
+      shortUrl: 'https://goo.gl/ghi789',
+    },
+    {
+      name: 'Facebook',
+      description: 'Social Network',
+      shortUrl: 'https://goo.gl/jkl012',
+    },
+  ];
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
